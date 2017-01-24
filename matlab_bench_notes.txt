@@ -1,0 +1,56 @@
+What the functions are testing
+
+***
+svd_time(n) This generates a random n x n matrix and performs a singular value decomposition. That is if A is the n x n matrix, we want a decomposition
+
+A = U*S*V' 
+
+such that U and V are orthogonal and S is diagonal.
+
+This is a fundamental linear algebra technique that is under the hood of Pricipal Component Analysis (PCA), Latent Semantic Analysis (LSA), and other algorithms. It's a solid workhorse and we care about it as a test of floating point regular access.
+
+***
+sparse_time(n)
+
+Operations on sparse matrices are a good way to check performance on a mix of integer and floating point operations. This function is adapted from bench_sparse in bench.m from Mathworks.
+
+For n, we get canonical sparse matrix formed by 
+
+1. Starting with a matrix of all zeros
+
+     0     0     0     0
+     0     0     0     0
+     0     0     0     0
+     0     0     0     0
+
+
+2. For entries not in the first or last row or column, take an L-shaped region.
+
+     0     0     0     0
+     0     *     *     0
+     0     0     *     0
+     0     0     0     0
+
+3. Taking the negative of the adjacency graph of the above.
+
+     0    -1     0
+    -1     0    -1
+     0    -1     0
+
+4. And put -4s along the diagonal
+
+     4    -1     0
+    -1     4    -1
+     0    -1     4
+
+This is the matrix A we want. The matrix for n even is (3/4)*(n-2)^2 by (3/4)*(n-2)^2 and has 3*n^2-16*n+20 non-zero entries. So the proportion of non-zeros is
+
+(16/9)*(3*n-10)/(n-2)^3
+
+
+The timing is done on A \ sum(A)' (as sparse matrices).
+
+***
+fft_time(n)
+
+This function times a fast Fourier transform on a length 2^n vector of random draws from a Normal distribution.

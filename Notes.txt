@@ -1,0 +1,8 @@
+Notes to self:
+
+- The KN box can handle some larger sized problems than, say, karst. It's not clear that a karst with more RAM wouldn't do as well.
+
+- Matlab's garbage collection probably stinks. The parameters were chosen so that the KN box would crap out on the highest value but do okay before that. Instead the KN box craps out one or two steps earlier than expected.
+
+If it's not at the end of a loop, the KN box did a SVD on a 70,000 square random matrix in something on the order of 40-45 minutes.
+
